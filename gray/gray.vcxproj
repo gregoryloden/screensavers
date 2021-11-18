@@ -140,10 +140,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\main.cpp" />
     <ClCompile Include="gray.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gray.h" />
+    <ClInclude Include="..\main.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
