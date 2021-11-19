@@ -1,6 +1,8 @@
 #include "../main.h"
 
-void Draw(HDC hdc, float timeElapsed, int screenWidth, int screenHeight) {
+void Init() {}
+
+void Draw(HDC hdc, float timeElapsed) {
 	int frame = (int)(timeElapsed / 0.75f) % 4;
 
 	float bgColor = (frame < 2) ? (frame + 1) * 0.25f : (5 - frame) * 0.25f;

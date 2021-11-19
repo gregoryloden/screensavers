@@ -1,6 +1,8 @@
-*/.vs/*
+.vs/*
+Debug/*
+Release/*
+builds/*
+screensavers.sln
 */Debug/*
 */Release/*
-*/builds/*
 */*.vcxproj.user
-*/*.sln

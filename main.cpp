@@ -2,22 +2,25 @@
 #include <scrnsave.h>
 #include <commctrl.h>
 
+void GetScreenSize(HWND hWnd);
 void SetupOpengl(HWND hWnd);
 void TeardownOpengl(HWND hWnd);
 
-HDC hdc;
-HGLRC hglrc;
 int screenWidth;
 int screenHeight;
 LARGE_INTEGER ticksPerSecond;
 LARGE_INTEGER startTime;
+HDC hdc;
+HGLRC hglrc;
 
 LONG WINAPI ScreenSaverProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
 		case WM_CREATE:
-			QueryPerformanceFrequency(&ticksPerSecond);
 			QueryPerformanceCounter(&startTime);
+			QueryPerformanceFrequency(&ticksPerSecond);
+			GetScreenSize(hWnd);
 			SetupOpengl(hWnd);
+			Init();
 			return 0;
 		case WM_DESTROY:
 			TeardownOpengl(hWnd);
@@ -26,7 +29,7 @@ LONG WINAPI ScreenSaverProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			LARGE_INTEGER currentTime;
 			QueryPerformanceCounter(&currentTime);
 			float timeElapsed = (float)(currentTime.QuadPart - startTime.QuadPart) / (float)ticksPerSecond.QuadPart;
-			Draw(hdc, timeElapsed, screenWidth, screenHeight);
+			Draw(hdc, timeElapsed);
 			return 0;
 	}
 	return DefScreenSaverProc(hWnd, message, wParam, lParam);
@@ -38,9 +41,15 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hDlg, UINT message, WPARAM wParam, L
 //Needed for scrnsave.lib
 BOOL WINAPI RegisterDialogClasses(HANDLE hInst) { return TRUE; }
 
+void GetScreenSize(HWND hWnd) {
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+	screenWidth = rect.right;
+	screenHeight = rect.bottom;
+}
+
 void SetupOpengl(HWND hWnd) {
-	PIXELFORMATDESCRIPTOR pfd;
-	ZeroMemory(&pfd, sizeof pfd);
+	PIXELFORMATDESCRIPTOR pfd = {};
 	pfd.nSize = sizeof pfd;
 	pfd.nVersion = 1;
 	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
@@ -55,17 +64,12 @@ void SetupOpengl(HWND hWnd) {
 	//Enable vsync
 	((BOOL(WINAPI*)(int))wglGetProcAddress("wglSwapIntervalEXT"))(1);
 
-	RECT rect;
-	GetClientRect(hWnd, &rect);
-	screenWidth = rect.right;
-	screenHeight = rect.bottom;
-
 	//Render this box of the world to the window
 	glOrtho(0, screenWidth, screenHeight, 0, -1, 1);
 }
 
 void TeardownOpengl(HWND hWnd) {
-	wglMakeCurrent(NULL, NULL);
+	wglMakeCurrent(nullptr, nullptr);
 	wglDeleteContext(hglrc);
 	ReleaseDC(hWnd, hdc);
 }

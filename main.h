@@ -1,5 +1,10 @@
 #include <windows.h>
 #include <gl/gl.h>
 
-//This must be defined in the screensaver source file
-void Draw(HDC hdc, float timeElapsed, int screenWidth, int screenHeight);
+//These are initialized before any custom screensaver code is run
+extern int screenWidth;
+extern int screenHeight;
+
+//These must be defined in the screensaver source file
+void Init();
+void Draw(HDC hdc, float timeElapsed);
