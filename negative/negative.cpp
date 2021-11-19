@@ -1,35 +1,12 @@
 #include "../main.h"
 #include <cmath>
+#include "../shared/screenshot.h"
 
 const float period = 4.0f;
 const float halfPeriod = period / 2;
 
 void Init() {
-	void* screenshotBits;
-	BITMAPINFO info = {};
-	info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	info.bmiHeader.biWidth = screenWidth;
-	info.bmiHeader.biHeight = -screenHeight;
-	info.bmiHeader.biPlanes = 1;
-	info.bmiHeader.biBitCount = 24;
-	info.bmiHeader.biCompression = BI_RGB;
-	HDC screendc = GetDC(nullptr);
-	HBITMAP screenshot = CreateDIBSection(screendc, &info, DIB_RGB_COLORS, &screenshotBits, nullptr, 0);
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	if (screenshot != nullptr) {
-		HDC memorydc = CreateCompatibleDC(screendc);
-		SelectObject(memorydc, screenshot);
-		BitBlt(memorydc, 0, 0, screenWidth, screenHeight, screendc, 0, 0, SRCCOPY);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, screenWidth, screenHeight, 0, GL_BGR_EXT, GL_UNSIGNED_BYTE, screenshotBits);
-		DeleteDC(memorydc);
-		DeleteObject(screenshot);
-	} else
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1, 1, 0, GL_RGB, GL_UNSIGNED_BYTE, "\0\0\0");
-	ReleaseDC(nullptr, screendc);
+	LoadFullOrPreviewScreenshot();
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 }

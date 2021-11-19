@@ -141,10 +141,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\shared\screenshot.cpp" />
     <ClCompile Include="negative.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main.h" />
+    <ClInclude Include="..\shared\screenshot.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
