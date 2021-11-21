@@ -2,7 +2,7 @@
 #include <cmath>
 #include "../shared/screenshot.h"
 
-const float period = 4.0f;
+const float period = 4;
 const float halfPeriod = period / 2;
 
 void Init() {
@@ -13,13 +13,14 @@ void Init() {
 
 void Draw(HDC hdc, float timeElapsed) {
 	float frame = fmod(timeElapsed, period);
+	frame = (frame < halfPeriod ? frame : period - frame) / halfPeriod;
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	float xs[] = { 0.0f, 1.0f, 1.0f, 0.0f };
-	float ys[] = { 0.0f, 0.0f, 1.0f, 1.0f };
+	float xs[] = { 0, 1, 1, 0 };
+	float ys[] = { 0, 0, 1, 1 };
 
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glColor4f(1, 1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
 	glBegin(GL_POLYGON);
 	for (int i = 0; i < 4; i++) {
@@ -29,8 +30,7 @@ void Draw(HDC hdc, float timeElapsed) {
 	glEnd();
 	glDisable(GL_TEXTURE_2D);
 
-	float val = (frame < halfPeriod ? frame : period - frame) / halfPeriod;
-	glColor4f(val, val, val, val);
+	glColor4f(frame, frame, frame, frame);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_POLYGON);

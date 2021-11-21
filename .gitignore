@@ -5,4 +5,5 @@ builds/*
 screensavers.sln
 */Debug/*
 */Release/*
+*/*.aps
 */*.vcxproj.user
