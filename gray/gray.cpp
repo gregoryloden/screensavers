@@ -24,7 +24,4 @@ void Draw(HDC hdc, float timeElapsed) {
 			glVertex2f(xs[i], ys[i]);
 		glEnd();
 	}
-
-	glFlush();
-	SwapBuffers(hdc);
 }

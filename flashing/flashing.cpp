@@ -53,7 +53,4 @@ void Draw(HDC hdc, float timeElapsed) {
 	glDisable(GL_TEXTURE_2D);
 
 	glUniform1f(frameUniform, frame);
-
-	glFlush();
-	SwapBuffers(hdc);
 }

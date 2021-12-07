@@ -37,7 +37,4 @@ void Draw(HDC hdc, float timeElapsed) {
 	for (int i = 0; i < 4; i++)
 		glVertex2f(xs[i] * (float)screenWidth, ys[i] * (float)screenHeight);
 	glEnd();
-
-	glFlush();
-	SwapBuffers(hdc);
 }
