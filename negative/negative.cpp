@@ -1,6 +1,6 @@
 #include "../main.h"
 #include <cmath>
-#include "../shared/screenshot.h"
+#include "../shared/background.h"
 
 const float period = 4;
 const float halfPeriod = period / 2;

@@ -141,16 +141,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\shared\background.cpp" />
     <ClCompile Include="..\shared\glshaders.cpp" />
-    <ClCompile Include="..\shared\screenshot.cpp" />
     <ClCompile Include="..\shared\threading.cpp" />
     <ClCompile Include="flashing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main.h" />
+    <ClInclude Include="..\shared\background.h" />
     <ClInclude Include="..\shared\glextensions.h" />
     <ClInclude Include="..\shared\glshaders.h" />
-    <ClInclude Include="..\shared\screenshot.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

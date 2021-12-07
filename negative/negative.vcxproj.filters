@@ -3,7 +3,7 @@
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="negative.cpp" />
-    <ClCompile Include="..\shared\screenshot.cpp">
+    <ClCompile Include="..\shared\background.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
     <ClCompile Include="..\shared\threading.cpp">
@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClInclude Include="..\main.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="..\shared\screenshot.h">
+    <ClInclude Include="..\shared\background.h">
       <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "screenshot.h"
+#include "background.h"
 #include "../main.h"
 #include "threading.cpp"
 #undef RGB
