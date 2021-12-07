@@ -143,6 +143,7 @@
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\shared\glshaders.cpp" />
     <ClCompile Include="..\shared\screenshot.cpp" />
+    <ClCompile Include="..\shared\threading.cpp" />
     <ClCompile Include="flashing.cpp" />
   </ItemGroup>
   <ItemGroup>

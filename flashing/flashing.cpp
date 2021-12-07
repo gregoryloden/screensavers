@@ -12,7 +12,7 @@ GLuint frameUniform;
 void Init() {
 	InitGlShaderFunctions();
 
-	LoadFullOrPreviewScreenshot();
+	LoadFallbackImage();
 
 	HRSRC fragmentShaderInfo = FindResource(nullptr, MAKEINTRESOURCE(IDR_TEXTFILE1), RT_RCDATA);
 	if (fragmentShaderInfo == nullptr)

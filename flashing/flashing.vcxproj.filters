@@ -9,6 +9,9 @@
     <ClCompile Include="..\shared\glshaders.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\threading.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main.h" />

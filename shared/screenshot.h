@@ -1,1 +1,2 @@
 void LoadFullOrPreviewScreenshot();
+void LoadFallbackImage();
