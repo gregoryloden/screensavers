@@ -63,9 +63,6 @@ void SetupOpengl(HWND hWnd) {
 	hglrc = wglCreateContext(hdc);
 	wglMakeCurrent(hdc, hglrc);
 
-	//Enable vsync
-	((BOOL(WINAPI*)(int))wglGetProcAddress("wglSwapIntervalEXT"))(1);
-
 	//Render this box of the world to the window
 	glOrtho(0, screenWidth, screenHeight, 0, -1, 1);
 }
