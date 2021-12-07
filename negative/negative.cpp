@@ -15,8 +15,6 @@ void Draw(HDC hdc, float timeElapsed) {
 	float frame = fmod(timeElapsed, period);
 	frame = (frame < halfPeriod ? frame : period - frame) / halfPeriod;
 
-	glClear(GL_COLOR_BUFFER_BIT);
-
 	float xs[] = { 0, 1, 1, 0 };
 	float ys[] = { 0, 0, 1, 1 };
 

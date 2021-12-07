@@ -29,6 +29,7 @@ LONG WINAPI ScreenSaverProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			LARGE_INTEGER currentTime;
 			QueryPerformanceCounter(&currentTime);
 			float timeElapsed = (float)(currentTime.QuadPart - startTime.QuadPart) / (float)ticksPerSecond.QuadPart;
+			glClear(GL_COLOR_BUFFER_BIT);
 			Draw(hdc, timeElapsed);
 			glFlush();
 			SwapBuffers(hdc);

@@ -9,7 +9,6 @@ void Draw(HDC hdc, float timeElapsed) {
 	int frame = (int)(timeElapsed / quarterPeriod) % 4;
 
 	float bgColor = (frame < 2) ? (frame + 1) * 0.25f : (5 - frame) * 0.25f;
-	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(bgColor, bgColor, bgColor, 1);
 
 	if (frame % 2 == 0) {
