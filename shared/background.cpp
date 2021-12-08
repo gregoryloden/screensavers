@@ -64,15 +64,13 @@ void LoadDesktopBackground() {
 		factory,
 		CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&factory)))
 
-	char path[MAX_PATH] = {};
-	SystemParametersInfo(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
-	wchar_t wpath[sizeof(path) * 2] = {};
-	swprintf_s(wpath, L"%S", path);
+	wchar_t path[MAX_PATH] = {};
+	SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
 
 	buildOrLoadFallbackImage(
 		IWICBitmapDecoder*,
 		decoder,
-		factory->CreateDecoderFromFilename(wpath, nullptr, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &decoder))
+		factory->CreateDecoderFromFilename(path, nullptr, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &decoder))
 
 	buildOrLoadFallbackImage(IWICBitmapFrameDecode*, frame, decoder->GetFrame(0, &frame))
 
