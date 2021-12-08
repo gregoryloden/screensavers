@@ -208,8 +208,8 @@ constexpr float sqrtConst(float f) {
 float equalDistributionDark(float dark) {
 	//Recalculate dark so that every dark value has equal representation in terms of total pixels (theoretically), based on the
 	// distibution of values
-	//Begin by converting dark from distance-from-center to the total factor of all colors darker than this darkness that will
-	// be displayed
+	//Begin by converting dark from distance-from-center to the total factor of all colors brighter than this darkness that will
+	// be displayed (for instance, a distance-from-center of 1/3 means that only 1/9 of pixels will be brighter than this)
 	dark *= dark;
 	//For a given darkness value 0 <= x <= 1 which is the sum of three darkness values each between 0 and 1/3, the distribution
 	// of those values is:
@@ -221,7 +221,7 @@ float equalDistributionDark(float dark) {
 	//  0 <= x <= 1/3: 9/2 * x^3
 	//1/3 <= x <= 2/3: -9x^3 + 27/2 * x^2 - 9/2 * x + 1/2          = -9 * x * (x - 1/2) * (x - 1) + 1/2
 	//2/3 <= x <= 1  : 9/2 * x^3 - 27/2 * x^2 + 27/2 * x - 7/2     = 9/2 * (x - 1)^3 + 1
-	//To find darkness y given x = the total factor of all colors brighter than it that will be displayed, is:
+	//To find darkness y given x = the total factor of all colors brighter than it that will be displayed, is the inverse:
 	//  0 <= x <= 1/6: cbrt(2x/9)
 	//1/6 <= x <= 5/6: (inverse of above equation, see below)
 	//5/6 <= x <= 1  : 1 - cbrt((2-2x)/9)
