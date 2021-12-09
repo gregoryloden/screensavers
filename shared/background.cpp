@@ -10,10 +10,6 @@
 	doOrLoadFallbackImage(construction)\
 	Releaser<type> obj##_Releaser (obj);
 
-void loadGlTexture(const GLvoid* pixels, GLsizei width, GLsizei height, GLenum format);
-constexpr float sqrtConst(float f);
-float equalDistributionDark(float dark);
-
 struct RGB {
 	unsigned char r;
 	unsigned char g;
@@ -25,6 +21,10 @@ public:
 	Releaser(T pVal) { val = pVal; }
 	~Releaser() { val->Release(); }
 };
+
+void loadGlTexture(const GLvoid* pixels, GLsizei width, GLsizei height, GLenum format);
+constexpr float sqrtConst(float f);
+float equalDistributionDark(float dark);
 
 void LoadFullOrPreviewScreenshot() {
 	HDC screendc = GetDC(nullptr);
@@ -57,12 +57,12 @@ void LoadFullOrPreviewScreenshot() {
 }
 
 void LoadDesktopBackground() {
-	doOrLoadFallbackImage(CoInitialize(nullptr))
+	doOrLoadFallbackImage(CoInitialize(nullptr));
 
 	buildOrLoadFallbackImage(
 		IWICImagingFactory*,
 		factory,
-		CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&factory)))
+		CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&factory)));
 
 	wchar_t path[MAX_PATH] = {};
 	SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
@@ -70,21 +70,21 @@ void LoadDesktopBackground() {
 	buildOrLoadFallbackImage(
 		IWICBitmapDecoder*,
 		decoder,
-		factory->CreateDecoderFromFilename(path, nullptr, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &decoder))
+		factory->CreateDecoderFromFilename(path, nullptr, GENERIC_READ, WICDecodeMetadataCacheOnDemand, &decoder));
 
-	buildOrLoadFallbackImage(IWICBitmapFrameDecode*, frame, decoder->GetFrame(0, &frame))
+	buildOrLoadFallbackImage(IWICBitmapFrameDecode*, frame, decoder->GetFrame(0, &frame));
 
 	UINT imageWidth;
 	UINT imageHeight;
-	doOrLoadFallbackImage(frame->GetSize(&imageWidth, &imageHeight))
+	doOrLoadFallbackImage(frame->GetSize(&imageWidth, &imageHeight));
 
-	IWICBitmapSource* convertedFrame;
-	doOrLoadFallbackImage(WICConvertBitmapSource(GUID_WICPixelFormat24bppRGB, frame, &convertedFrame))
+	buildOrLoadFallbackImage(
+		IWICBitmapSource*, convertedFrame, WICConvertBitmapSource(GUID_WICPixelFormat24bppRGB, frame, &convertedFrame));
 
 	RGB* image = new RGB[imageWidth * imageHeight];
 	WICRect rect = { 0, 0, (INT)imageWidth, (INT)imageHeight };
 	doOrLoadFallbackImage(
-		convertedFrame->CopyPixels(&rect, imageWidth * 3, imageWidth * imageHeight * 3, reinterpret_cast<BYTE*>(image)))
+		convertedFrame->CopyPixels(&rect, imageWidth * 3, imageWidth * imageHeight * 3, reinterpret_cast<BYTE*>(image)));
 	loadGlTexture(image, imageWidth, imageHeight, GL_RGB);
 	CoUninitialize();
 }
