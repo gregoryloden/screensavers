@@ -4,7 +4,7 @@
 //
 #define IDS_DESCRIPTION                 1
 #define IDI_ICON1                       101
-#define IDR_TEXTFILE1                   102
+#define IDR_FLASHING_SHADER             102
 
 // Next default values for new objects
 // 

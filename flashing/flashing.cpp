@@ -14,7 +14,7 @@ void Init() {
 
 	LoadDesktopBackground();
 
-	HRSRC fragmentShaderInfo = FindResource(nullptr, MAKEINTRESOURCE(IDR_TEXTFILE1), RT_RCDATA);
+	HRSRC fragmentShaderInfo = FindResource(nullptr, MAKEINTRESOURCE(IDR_FLASHING_SHADER), RT_RCDATA);
 	if (fragmentShaderInfo == nullptr)
 		return;
 	HGLOBAL fragmentShaderData = LoadResource(nullptr, fragmentShaderInfo);

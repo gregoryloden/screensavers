@@ -60,7 +60,7 @@ IDI_ICON1               ICON                    "icon.ico"
 // RCDATA
 //
 
-IDR_TEXTFILE1           RCDATA                  "flashing.glsl"
+IDR_FLASHING_SHADER     RCDATA                  "flashing.glsl"
 
 
 /////////////////////////////////////////////////////////////////////////////
