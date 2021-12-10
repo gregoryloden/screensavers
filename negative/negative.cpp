@@ -1,12 +1,22 @@
 #include "../main.h"
 #include <cmath>
+#include "resource.h"
 #include "../shared/background.h"
+#include "../shared/registry.h"
+
+void initDialogControls(HWND hDlg);
+void loadRegistrySettings();
+void saveRegistrySettings();
 
 const float period = 4;
 const float halfPeriod = period / 2;
 
+DWORD background = backgroundTypeWallpaper;
+
 void Init() {
-	LoadAppropriateBackground(LoadRegistryBackground());
+	loadRegistrySettings();
+	LoadAppropriateBackground(background);
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -37,5 +47,39 @@ void Draw(HDC hdc, float timeElapsed) {
 	glEnd();
 }
 
-BOOL DialogInit(HWND hDlg) { return FALSE; }
-BOOL DialogCommand(HWND hDlg, WORD command) { return FALSE; }
+BOOL DialogInit(HWND hDlg) {
+	loadRegistrySettings();
+	initDialogControls(hDlg);
+	return TRUE;
+}
+
+BOOL DialogCommand(HWND hDlg, WORD command) {
+	switch (command) {
+		case IDC_WALLPAPER: background = backgroundTypeWallpaper; return TRUE;
+		case IDC_COLORS: background = backgroundTypeColors; return TRUE;
+		case IDC_SCREENSHOT: background = backgroundTypeScreenshot; return TRUE;
+		case IDC_DEFAULTS_BUTTON:
+			background = backgroundTypeWallpaper;
+			initDialogControls(hDlg);
+			return TRUE;
+		case IDOK:
+			saveRegistrySettings();
+			return TRUE;
+	}
+	return FALSE;
+}
+
+void initDialogControls(HWND hDlg) {
+	const int backgroundRadioButtons[] = { IDC_WALLPAPER, IDC_COLORS, IDC_SCREENSHOT };
+	CheckRadioButton(hDlg, IDC_WALLPAPER, IDC_SCREENSHOT, backgroundRadioButtons[background]);
+}
+
+void loadRegistrySettings() {
+	background = LoadRegistryBackground();
+}
+
+void saveRegistrySettings() {
+	bool anySettingsInRegistry = SaveRegistryBackground(background);
+	if (!anySettingsInRegistry)
+		DeleteRegistryFolders();
+}

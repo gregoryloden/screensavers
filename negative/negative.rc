@@ -57,6 +57,56 @@ IDI_ICON1               ICON                    "icon.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Dialog
+//
+
+DLG_SCRNSAVECONFIGURE DIALOGEX 0, 0, 193, 64
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Flashing Options"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,137,44,50,14
+    CONTROL         "Wallpaper",IDC_WALLPAPER,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,6,6,48,10
+    CONTROL         "Colors",IDC_COLORS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,60,6,36,10
+    CONTROL         "Screenshot",IDC_SCREENSHOT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,102,6,52,10
+    LTEXT           "Note: Screenshot produces only a sold color (the system color) on Windows 8+ when run due to inactivity",IDC_SCREENSHOT_NOTE,6,22,181,16
+    PUSHBUTTON      "Defaults",IDC_DEFAULTS_BUTTON,6,44,50,14
+    DEFPUSHBUTTON   "OK",IDOK,81,44,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    DLG_SCRNSAVECONFIGURE, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 187
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 58
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+DLG_SCRNSAVECONFIGURE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 

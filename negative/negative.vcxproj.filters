@@ -9,11 +9,17 @@
     <ClCompile Include="..\shared\threading.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\registry.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="..\shared\background.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\registry.h">
       <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>
