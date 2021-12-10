@@ -38,8 +38,21 @@ LONG WINAPI ScreenSaverProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	return DefScreenSaverProc(hWnd, message, wParam, lParam);
 }
 
-//Needed for scrnsave.lib
-BOOL WINAPI ScreenSaverConfigureDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) { return FALSE; }
+BOOL WINAPI ScreenSaverConfigureDialog(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message) {
+		case WM_INITDIALOG:
+			return DialogInit(hDlg);
+		case WM_COMMAND:
+			WORD command = LOWORD(wParam);
+			BOOL wasProcessed = DialogCommand(hDlg, command);
+			switch (command) {
+				case IDOK: EndDialog(hDlg, true); return TRUE;
+				case IDCANCEL: EndDialog(hDlg, false); return TRUE;
+			}
+			return wasProcessed;
+	}
+	return FALSE;
+}
 
 //Needed for scrnsave.lib
 BOOL WINAPI RegisterDialogClasses(HANDLE hInst) { return TRUE; }

@@ -1,10 +1,12 @@
 #include "background.h"
 #include <wincodec.h>
 #include <wincodecsdk.h>
+#include "../main.h"
+#include "registry.h"
 #include "threading.cpp"
 
 #undef RGB
-#define doOrLoadFallbackImage(thing) if (FAILED(thing)) return LoadFallbackImage();
+#define doOrLoadFallbackImage(thing) if (FAILED(thing)) return loadColorsImage();
 #define buildOrLoadFallbackImage(type, obj, construction) \
 	type obj;\
 	doOrLoadFallbackImage(construction)\
@@ -22,11 +24,37 @@ public:
 	~Releaser() { val->Release(); }
 };
 
+void loadFullOrPreviewScreenshot();
+void loadDesktopBackground();
+void loadColorsImage();
 void loadGlTexture(const GLvoid* pixels, GLsizei width, GLsizei height, GLenum format);
 constexpr float sqrtConst(float f);
 float equalDistributionDark(float dark);
 
-void LoadFullOrPreviewScreenshot() {
+const char registryBackgroundName[] = "Background";
+
+void LoadAppropriateBackground(DWORD background) {
+	switch (background) {
+		case backgroundTypeColors: loadColorsImage(); break;
+		case backgroundTypeScreenshot: loadFullOrPreviewScreenshot(); break;
+		default: loadDesktopBackground(); break;
+	}
+}
+
+DWORD LoadRegistryBackground() {
+	DWORD background = LoadRegistryDword(registryBackgroundName);
+	switch (background) {
+		case backgroundTypeColors:
+		case backgroundTypeScreenshot: return background;
+		default: return backgroundTypeWallpaper;
+	}
+}
+
+bool SaveRegistryBackground(DWORD background) {
+	return SaveRegistryDword(registryBackgroundName, background);
+}
+
+void loadFullOrPreviewScreenshot() {
 	HDC screendc = GetDC(nullptr);
 	int screenshotWidth = GetDeviceCaps(screendc, HORZRES);
 	int screenshotHeight = GetDeviceCaps(screendc, VERTRES);
@@ -52,11 +80,11 @@ void LoadFullOrPreviewScreenshot() {
 		DeleteDC(memorydc);
 		DeleteObject(screenshot);
 	} else
-		loadGlTexture("\0\0\0", 1, 1, GL_RGB);
+		loadColorsImage();
 	ReleaseDC(nullptr, screendc);
 }
 
-void LoadDesktopBackground() {
+void loadDesktopBackground() {
 	doOrLoadFallbackImage(CoInitialize(nullptr));
 
 	buildOrLoadFallbackImage(
@@ -89,7 +117,7 @@ void LoadDesktopBackground() {
 	CoUninitialize();
 }
 
-void LoadFallbackImage() {
+void loadColorsImage() {
 	RGB* image = new RGB[screenWidth * screenHeight];
 
 	//Represent hues as ranges, with each range indicating how to compute an individual hue

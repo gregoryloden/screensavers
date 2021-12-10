@@ -3,8 +3,6 @@
 const float period = 3;
 const float quarterPeriod = period / 4;
 
-void Init() {}
-
 void Draw(HDC hdc, float timeElapsed) {
 	int frame = (int)(timeElapsed / quarterPeriod) % 4;
 
@@ -24,3 +22,7 @@ void Draw(HDC hdc, float timeElapsed) {
 		glEnd();
 	}
 }
+
+void Init() {}
+BOOL DialogInit(HWND hDlg) { return FALSE; }
+BOOL DialogCommand(HWND hDlg, WORD command) { return FALSE; }

@@ -12,6 +12,9 @@
     <ClCompile Include="..\shared\threading.cpp">
       <Filter>Shared</Filter>
     </ClCompile>
+    <ClCompile Include="..\shared\registry.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\main.h" />
@@ -23,6 +26,9 @@
       <Filter>Shared</Filter>
     </ClInclude>
     <ClInclude Include="..\shared\glshaders.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\shared\registry.h">
       <Filter>Shared</Filter>
     </ClInclude>
   </ItemGroup>

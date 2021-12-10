@@ -6,7 +6,7 @@ const float period = 4;
 const float halfPeriod = period / 2;
 
 void Init() {
-	LoadDesktopBackground();
+	LoadAppropriateBackground(LoadRegistryBackground());
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -36,3 +36,6 @@ void Draw(HDC hdc, float timeElapsed) {
 		glVertex2f(xs[i] * (float)screenWidth, ys[i] * (float)screenHeight);
 	glEnd();
 }
+
+BOOL DialogInit(HWND hDlg) { return FALSE; }
+BOOL DialogCommand(HWND hDlg, WORD command) { return FALSE; }
