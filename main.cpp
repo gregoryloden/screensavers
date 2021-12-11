@@ -2,9 +2,9 @@
 #include <scrnsave.h>
 #include <commctrl.h>
 
-void GetScreenSize(HWND hWnd);
-void SetupOpengl(HWND hWnd);
-void TeardownOpengl(HWND hWnd);
+void getScreenSize(HWND hWnd);
+void setupOpengl(HWND hWnd);
+void teardownOpengl(HWND hWnd);
 
 int screenWidth;
 int screenHeight;
@@ -18,12 +18,12 @@ LONG WINAPI ScreenSaverProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		case WM_CREATE:
 			QueryPerformanceCounter(&startTime);
 			QueryPerformanceFrequency(&ticksPerSecond);
-			GetScreenSize(hWnd);
-			SetupOpengl(hWnd);
+			getScreenSize(hWnd);
+			setupOpengl(hWnd);
 			Init();
 			return 0;
 		case WM_DESTROY:
-			TeardownOpengl(hWnd);
+			teardownOpengl(hWnd);
 			break;
 		case WM_PAINT:
 			LARGE_INTEGER currentTime;
@@ -57,14 +57,14 @@ BOOL WINAPI ScreenSaverConfigureDialog(HWND hDlg, UINT message, WPARAM wParam, L
 //Needed for scrnsave.lib
 BOOL WINAPI RegisterDialogClasses(HANDLE hInst) { return TRUE; }
 
-void GetScreenSize(HWND hWnd) {
+void getScreenSize(HWND hWnd) {
 	RECT rect;
 	GetClientRect(hWnd, &rect);
 	screenWidth = rect.right;
 	screenHeight = rect.bottom;
 }
 
-void SetupOpengl(HWND hWnd) {
+void setupOpengl(HWND hWnd) {
 	PIXELFORMATDESCRIPTOR pfd = {};
 	pfd.nSize = sizeof pfd;
 	pfd.nVersion = 1;
@@ -81,7 +81,7 @@ void SetupOpengl(HWND hWnd) {
 	glOrtho(0, screenWidth, screenHeight, 0, -1, 1);
 }
 
-void TeardownOpengl(HWND hWnd) {
+void teardownOpengl(HWND hWnd) {
 	wglMakeCurrent(nullptr, nullptr);
 	wglDeleteContext(hglrc);
 	ReleaseDC(hWnd, hdc);
