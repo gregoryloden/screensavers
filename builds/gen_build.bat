@@ -31,14 +31,14 @@ goto find_build
 :build_installers
 echo(
 mkdir v!vn!_temp
-pushd ..\installer
-for %%s in (..\Release\*.scr) do (
+pushd installer
+for %%s in (..\..\Release\*.scr) do (
 	set screensaver=%%s
-	set screensaver=!screensaver:~11,-4!
-	for /f "tokens=* delims=" %%l in ('findstr IDS_DESCRIPTION ..\!screensaver!\!screensaver!.rc') do set title=%%l
+	set screensaver=!screensaver:~14,-4!
+	for /f "tokens=* delims=" %%l in ('findstr IDS_DESCRIPTION ..\..\!screensaver!\!screensaver!.rc') do set title=%%l
 	set title=!title:*"=!
 	set title=!title:~0,-1!
-	for /f "tokens=1-3 delims={}" %%l in ('findstr ProjectGuid ..\!screensaver!\!screensaver!.vcxproj') do set id={%%m}
+	for /f "tokens=1-3 delims={}" %%l in ('findstr ProjectGuid ..\..\!screensaver!\!screensaver!.vcxproj') do set id={%%m}
 
 	echo Building !screensaver! installer...
 	type NUL > installer.vdproj
@@ -61,7 +61,7 @@ for %%s in (..\Release\*.scr) do (
 		goto end
 	)
 	add-install-location.vbs C:\Windows\!screensaver!.scr
-	move Release\installer.msi ..\builds\v!vn!_temp\!screensaver!_installer.msi
+	move Release\installer.msi ..\v!vn!_temp\!screensaver!_installer.msi
 )
 popd
 

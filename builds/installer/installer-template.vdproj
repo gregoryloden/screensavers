@@ -44,7 +44,7 @@
         {
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_40F27D13732B49A6AF9A9D17B984199A"
             {
-            "SourcePath" = "8:..\\Release\\[screensaver].scr"
+            "SourcePath" = "8:..\\..\\Release\\[screensaver].scr"
             "TargetName" = "8:[screensaver].scr"
             "Folder" = "8:_E50D1D3E20A1439AB36D0BA63C47741F"
             "Transitive" = "11:FALSE"
