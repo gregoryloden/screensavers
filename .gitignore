@@ -7,3 +7,4 @@ screensavers.sln
 */Release/*
 */*.aps
 */*.vcxproj.user
+installer/installer.vdproj
