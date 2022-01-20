@@ -278,16 +278,17 @@ float equalDistributionDark(float dark) {
 	// -- p = c/a - b^2/(3a^2)
 	// -- q = 2b^3/(27a^3) - bc/(3a^2) + d/a - x/a
 	// -- z^3 + pz + q = 0
-	constexpr float cubicP = (3 * cubicA * cubicC - cubicB * cubicB) / (3 * cubicA * cubicA);
+	constexpr float cubicP = cubicC / cubicA - (cubicB * cubicB) / (3 * cubicA * cubicA);
 	constexpr float cubicQConstant =
-		(2 * cubicB * cubicB * cubicB - 9 * cubicA * cubicB * cubicC) / (27 * cubicA * cubicA * cubicA)
-		+ cubicD / cubicA;
+		(2 * cubicB * cubicB * cubicB) / (27 * cubicA * cubicA * cubicA)
+			- (cubicB * cubicC) / (3 * cubicA * cubicA)
+			+ cubicD / cubicA;
 	float cubicQ = cubicQConstant - dark / cubicA;
 	//Cubic functions of the form a^3 = b have 3 roots:
 	// -- a = cbrt(b)
 	// -- a = cbrt(b)(-1 + sqrt(3)i)/2
 	// -- a = cbrt(b)(-1 - sqrt(3)i)/2
-	//If p = 0, replace a with z and b with q for those (in this case it's not)
+	//If p = 0, replace a with z and b with -q for those (in this case it's not)
 	//Otherwise, perform "Vieta's substitution" by replacing z with (w - p/(3w))
 	// -- z = w - p/(3w)
 	// -- w != 0
@@ -301,12 +302,11 @@ float equalDistributionDark(float dark) {
 	// -- s = q^2/4 + p^3/27 (= r^2 + p^3/27)
 	// -- w^3 = r +- sqrt(s)
 	float cubicR = -cubicQ / 2;
-	float cubicRSquared = cubicR * cubicR; // for convenience
 	constexpr float cubicPCubedOver27 = cubicP * cubicP * cubicP / 27;
-	float cubicS = cubicRSquared + cubicPCubedOver27;
+	float cubicS = cubicR * cubicR + cubicPCubedOver27;
 	//If s were >=0, we could stop here and sub in w in the y equation, but for the values we care about, s < 0
 	//Assign value t to simplify the equation
-	// -- t = sqrt(abs(s))
+	// -- t = sqrt(-s)
 	// -- w^3 = r +- ti
 	float cubicT = sqrtf(-cubicS);
 	//Combining square roots with cube roots, w has six roots:
@@ -318,15 +318,19 @@ float equalDistributionDark(float dark) {
 	// -- w = cbrt(r - ti)(-1 - sqrt(3)i)/2
 	//External testing has determined that the equation we should use is #5:
 	// -- w = cbrt(r + ti)(-1 - sqrt(3)i)/2
-	//Find the cube root of a complex number
+	//Find the cube root of the complex number r + ti
 	//We can think of a complex number as coordinates on a graph, x + yi
 	//Cubing a number cubes the distance from the origin and triples the angle from the +x axis
 	//Cube-rooting a number cube-roots the distance and thirds the angle
 	//Assign u to the distance and v to the angle
 	// -- u = cbrt(sqrt(r^2 + t^2))
-	//      = cbrt(sqrt(r^2 + abs(s)))
+	//      = cbrt(sqrt(r^2 - s))
+	//      = cbrt(sqrt(r^2 - r^2 - p^3 / 27))
+	//      = cbrt(sqrt(-p^3 / 27))
+	//      = sqrt(cbrt(-p^3 / 27))
+	//      = sqrt(-p / 3)
 	// -- v = arctan(t over r) / 3
-	float cubicU = cbrtf(sqrtf(cubicRSquared - cubicS));
+	constexpr float cubicU = sqrtConst(-cubicP / 3);
 	float cubicV = atan2f(cubicT, cubicR) / 3;
 	//Now we can sub these back in for w and multiply it by the other part
 	// -- w = u(cos(v) + sin(v)i)(-1 - sqrt(3)i)/2
@@ -362,13 +366,13 @@ float equalDistributionDark(float dark) {
 	//Simplify the imaginary part
 	// -- (1 + p/(3u^2))wIi = -(1 + p/(3u^2))u(sin(v) + sqrt(3)cos(v))i/2
 	//                      = -(u + p/(3u))(sin(v) + sqrt(3)cos(v))/2
-	// -- u + p/(3u) = cbrt(sqrt(r^2 + abs(s)) + p/(3cbrt(sqrt(r^2 + t^2)))
-	//               = (3cbrt(r^2 + abs(s)) + p)/(3cbrt(sqrt(r^2 + t^2)))
+	// -- u + p/(3u) = cbrt(sqrt(r^2 - s) + p/(3cbrt(sqrt(r^2 + t^2)))
+	//               = (3cbrt(r^2 - s) + p)/(3cbrt(sqrt(r^2 + t^2)))
 	//Remember that s < 0 for the values we care about
-	// -- 3cbrt(r^2 + abs(s)) + p = 3cbrt(r^2 - s) + p
-	//                            = 3cbrt(q^2/4 - q^2/4 - p^3/27)) + p
-	//                            = 3cbrt(-p^3/27)) + p
-	//                            = 0
+	// -- 3cbrt(r^2 - s) + p = 3cbrt(r^2 - s) + p
+	//                       = 3cbrt(q^2/4 - q^2/4 - p^3/27)) + p
+	//                       = 3cbrt(-p^3/27)) + p
+	//                       = 0
 	// -- u + p/(3u) = 0
 	// -- (1 + p/(3u^2))wIi = 0
 	// -- y = (1 - p/(3u^2))wR - b/(3a)
